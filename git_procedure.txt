@@ -6,6 +6,7 @@ git push origin master
 
 caution
 first push only : git remote add origin maseter git@github.com:keikei11/chrome_test_repo.git
+meke local repo : git init 
 
 tips
 config remote connection :  git remote -v
@@ -18,3 +19,12 @@ git push origin HEAD:pushしたいブランチ名
 ssh connection check : ssh -T git@github.com
 コミットログ：git log origin/master
 ブランチの確認：git branch
+make branch : git branch branch_name
+chnage save branch : git checkout testbranch
+git push origin testbranch
+git push origin testbranch
+git merge testbranch
+git push origin master
+
+
+

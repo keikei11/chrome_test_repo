@@ -28,7 +28,8 @@ if (ret == 0) {
  child();
  } else {
  // parent process came here because fork() returns the pid of newly created child process (> 1)
- parent(ret);
+ 	printf("%d", "test\n");
+	 parent(ret);
  }
  // shouldn't reach here
  err(EXIT_FAILURE, "shouldn't reach here");
