@@ -1,0 +1,20 @@
+update something in git dir
+
+git add/rm <target file>
+git commiit -m "message"
+git push origin master
+
+caution
+first push only : git remote add origin maseter git@github.com:keikei11/chrome_test_repo.git
+
+tips
+config remote connection :  git remote -v
+接続設定の変更:git remote set-url origin git@github.com:USERNAME/REPOSITORY.git
+
+originの削除 : git remote rm origin 
+pull未済の確認 : git status
+git push origin HEAD:pushしたいブランチ名
+
+ssh connection check : ssh -T git@github.com
+コミットログ：git log origin/master
+ブランチの確認：git branch
