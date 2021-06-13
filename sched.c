@@ -48,10 +48,12 @@ static void child_fn(int id, struct timespec *buf, int nrecord, unsigned long nl
                 clock_gettime(CLOCK_MONOTONIC, &ts);
                 buf[i] = ts;
         }
+        
         for (i = 0; i < nrecord; i++)
         {
                 printf("%d\t%ld\t%d\n", id, diff_nsec(start, buf[i]) / NSECS_PER_MSEC, (i + 1) * 100 / nrecord);
         }
+        
         exit(EXIT_SUCCESS);
 }
 
@@ -72,6 +74,7 @@ int main(int argc, char *argv[])
                 fprintf(stderr, "usage: %s <nproc> <total[ms]> <resolution[ms]>", argv[0]);
                 exit(EXIT_FAILURE);
         }
+        
         int nproc = atoi(argv[1]);
         int total = atoi(argv[2]);
         int resol = atoi(argv[3]);
@@ -87,11 +90,13 @@ int main(int argc, char *argv[])
                 fprintf(stderr, "<total>(%d) should be >= 1\n", total);
                 exit(EXIT_FAILURE);
         }
+        
         if (resol < 1)
         {
                 fprintf(stderr, "<resol>(%d) should be >= １\n", resol);
                 exit(EXIT_FAILURE);
         }
+        
         if (total % resol)
         {
                 fprintf(stderr, "<total>(%d) should be multiple of <resolution>(%d)\n ", total, resol);
@@ -111,6 +116,7 @@ int main(int argc, char *argv[])
         fflush(stdout);
 
         pids = malloc(nproc * sizeof(pid_t));
+        
         if (pids == NULL)
         {
                 warn("malloc(pids) failed");
@@ -121,6 +127,7 @@ int main(int argc, char *argv[])
         clock_gettime(CLOCK_MONOTONIC, &start);
 
         int i, ncreated;
+        
         for (i = 0, ncreated = 0; i < nproc; i++, ncreated++)
         {
                 pids[i] = fork();
@@ -134,9 +141,8 @@ int main(int argc, char *argv[])
                         /* shouldn't reach here */
                 }
         }
-        ret = EXIT_SUCCESS;
-
-        // parent
+        
+        ret = EXIT_SUCCESS; // parent
 
         wait_children : if (ret == EXIT_FAILURE) for (i = 0; i < ncreated; i++) if (kill(pids[i], SIGINT) < 0)
                         warn("kill(%d) failed", pids[i]);
