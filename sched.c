@@ -34,7 +34,7 @@ static inline void load(unsigned long nloop)
         for (i = 0; i < nloop; i++);
 }
 
-static void child_fn(int id, struct timespec *buf, int nrecord, unsigned long nlooｭ p_per_resol, struct timespec start)
+static void child_fn(int id, struct timespec *buf, int nrecord, unsigned long nloop_per_resol, struct timespec start)
 {
         int i;
         for (i = 0; i < nrecord; i++)
