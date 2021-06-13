@@ -31,7 +31,8 @@ static unsigned long loops_per_msec()
 static inline void load(unsigned long nloop)
 {
         unsigned long i;
-        for (i = 0; i < nloop; i++);
+        for (i = 0; i < nloop; i++)
+                ;
 }
 
 static void child_fn(int id, struct timespec *buf, int nrecord, unsigned long nloop_per_resol, struct timespec start)
@@ -95,47 +96,53 @@ if (resol < 1)
 }
 if (total % resol)
 {
-        fprintf(stderr, "<total>(%d) should be multiple of <resolution>(ｭ
-                            % d)\n ", total, resol); exit(EXIT_FAILURE); } int nrecord = total / resol;
-            struct timespec *logbuf = malloc(nrecord * sizeof(struct timespec));
-        if (!logbuf)
-                err(EXIT_FAILURE, "malloc(logbuf) failed");
-        puts("estimating workload which takes just one milisecond");
-        unsigned long nloop_per_resol = loops_per_msec() * resol;
-        puts("end estimation");
-        fflush(stdout);
-        pids = malloc(nproc * sizeof(pid_t));
-        if (pids == NULL)
+        fprintf(stderr, "<total>(%d) should be multiple of <resolution>(% d)\n ", total, resol);
+        exit(EXIT_FAILURE);
+}
+
+int nrecord = total / resol;
+struct timespec *logbuf = malloc(nrecord * sizeof(struct timespec));
+if (!logbuf)
+        err(EXIT_FAILURE, "malloc(logbuf) failed");
+puts("estimating workload which takes just one milisecond");
+unsigned long nloop_per_resol = loops_per_msec() * resol;
+puts("end estimation");
+fflush(stdout);
+
+pids = malloc(nproc * sizeof(pid_t));
+if (pids == NULL)
+{
+        warn("malloc(pids) failed");
+        goto free_logbuf;
+}
+
+struct timespec start;
+clock_gettime(CLOCK_MONOTONIC, &start);
+
+int i, ncreated;
+for (i = 0, ncreated = 0; i < nproc; i++, ncreated++)
+{
+        pids[i] = fork();
+        if (pids[i] < 0)
         {
-                warn("malloc(pids) failed");
-                goto free_logbuf;
+                goto wait_children;
         }
-        struct timespec start;
-        clock_gettime(CLOCK_MONOTONIC, &start);
-        int i, ncreated;
-        for (i = 0, ncreated = 0; i < nproc; i++, ncreated++)
-        {
-                pids[i] = fork();
-                if (pids[i] < 0)
-                {
-                        goto wait_children;
-                }
-                else if (pids[i] == 0)
-                {                                                             // children
-                        child_fn(i, logbuf, nrecord, nloop_per_resol, start); /* shouldn't reach here */
-                }
+        else if (pids[i] == 0)
+        {                                                             // children
+                child_fn(i, logbuf, nrecord, nloop_per_resol, start); /* shouldn't reach here */
         }
-        ret = EXIT_SUCCESS; // parent
-wait_children:
-        if (ret == EXIT_FAILURE)
-                for (i = 0; i < ncreated; i++)
-                        if (kill(pids[i], SIGINT) < 0)
-                                warn("kill(%d) failed", pids[i]);
-        for (i = 0; i < ncreated; i++)
-                if (wait(NULL) < 0)
-                        warn("wait() failed.");
+}
+ret = EXIT_SUCCESS; 
+
+// parent
+
+wait_children : if (ret == EXIT_FAILURE) for (i = 0; i < ncreated; i++) if (kill(pids[i], SIGINT) < 0)
+                    warn("kill(%d) failed", pids[i]);
+for (i = 0; i < ncreated; i++)
+        if (wait(NULL) < 0)
+                warn("wait() failed.");
 
 free_pids : free(pids);
 free_logbuf : free(logbuf);
-        exit(ret);
+exit(ret);
 }
