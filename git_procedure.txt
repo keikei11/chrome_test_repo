@@ -1,7 +1,9 @@
 【初回手順】
 gitとして管理する：git init
 githubにreositoyを作成：オンライン必須
-githubとの接続確認：ssh -T git@github.com
+鍵作成：/home/[USER]/.ssh~ 
+公開鍵をgithubに登録
+githubとのssh接続確認：ssh -T git@github.com
 資源の保存：git add <target file>
 資源の削除：git rm <target file>
 資源のlocal_repositoryへのcommit：git commit -m "msg"
@@ -18,14 +20,19 @@ git push origin master
 接続設定の変更:git remote set-url origin git@github.com:[USERNAME]/[REPOSITORY].git
 originの削除 : git remote rm origin 
 pull未済の確認 : git status
-ブランチを切ってpush：git push origin [BRAANCH_NAME]
-sshの確認 : ssh -T git@github.com
 コミットログ：git log origin/master
+
+【注意】
+ssh鍵交換しているユーザしかgithubとの接続不可
+一般ユーザで交換している場合は、rootやその他ユーザでの接続不可
+
+【ブランチ系】
 ブランチの確認：git branch
 ブランチの作成 : git branch branch_name
 ブランチのチェックアウト : git checkout testbranch
 ブランチの作成:git push origin testbranch
 ブランチのマージ：git merge testbranch
+ブランチを切ってpush：git push origin [BRAANCH_NAME]
 
 
 
