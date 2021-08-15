@@ -15,6 +15,9 @@ git add/rm <target file>
 git commiit -m "message"
 git push origin master
 
+【チェックアウト】
+git clone git@github.com:[USERNAME]/[REPOSITORY_NAME].git
+
 【TIPS】
 接続先の確認 :  git remote -v
 接続設定の変更:git remote set-url origin git@github.com:[USERNAME]/[REPOSITORY].git
@@ -23,8 +26,8 @@ pull未済の確認 : git status
 コミットログ：git log origin/master
 
 【注意】
-ssh鍵交換しているユーザしかgithubとの接続不可
-一般ユーザで交換している場合は、rootやその他ユーザでの接続不可
+ssh鍵交換しているユーザしかgithubとの接続不可　一般ユーザで交換している場合は、rootやその他ユーザでの接続不可
+ディレクトリを追加する際は、ディレクトリの指定が必要　アスタで反映できるのはファイルのみ
 
 【ブランチ系】
 ブランチの確認：git branch
