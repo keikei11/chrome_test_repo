@@ -1,30 +1,31 @@
-update something in git dir
+【初回手順】
+gitとして管理する：git init
+githubにreositoyを作成：オンライン必須
+githubとの接続確認：ssh -T git@github.com
+資源の保存：git add <target file>
+資源の削除：git rm <target file>
+資源のlocal_repositoryへのcommit：git commit -m "msg"
+資源のgithub(remote_repository)へのcommit:git remote add origin maseter git@github.com:[USERNAME]/[REPOSITORY_NAME].git
 
+
+【二回目以降】
 git add/rm <target file>
 git commiit -m "message"
 git push origin master
 
-caution
-first push only : git remote add origin maseter git@github.com:keikei11/chrome_test_repo.git
-meke local repo : git init 
-
-tips
-config remote connection :  git remote -v
-接続設定の変更:git remote set-url origin git@github.com:USERNAME/REPOSITORY.git
-
+【TIPS】
+接続先の確認 :  git remote -v
+接続設定の変更:git remote set-url origin git@github.com:[USERNAME]/[REPOSITORY].git
 originの削除 : git remote rm origin 
 pull未済の確認 : git status
-git push origin HEAD:pushしたいブランチ名
-
-ssh connection check : ssh -T git@github.com
+ブランチを切ってpush：git push origin [BRAANCH_NAME]
+sshの確認 : ssh -T git@github.com
 コミットログ：git log origin/master
 ブランチの確認：git branch
-make branch : git branch branch_name
-chnage save branch : git checkout testbranch
-git push origin testbranch
-git push origin testbranch
-git merge testbranch
-git push origin master
+ブランチの作成 : git branch branch_name
+ブランチのチェックアウト : git checkout testbranch
+ブランチの作成:git push origin testbranch
+ブランチのマージ：git merge testbranch
 
 
 
