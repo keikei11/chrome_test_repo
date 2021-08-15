@@ -16,7 +16,8 @@ git commiit -m "message"
 git push origin master
 
 【チェックアウト】
-git clone git@github.com:[USERNAME]/[REPOSITORY_NAME].git
+プロジェクトのチャックアウト：git clone git@github.com:[USERNAME]/[REPOSITORY_NAME].git
+特定資源のチェックアウト：git checkout [BRANCH_NAME]
 
 【TIPS】
 接続先の確認 :  git remote -v
